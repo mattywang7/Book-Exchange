@@ -1,25 +1,32 @@
+/**
+ * Cloud MongoDB
+ * kw3n20@soton.ac.uk
+ * mongodb@123
+ *
+ * User1:
+ * Matty
+ * mongodb@123
+ */
+
 const express = require('express')
-const cors = require('cors')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+
 const app = express()
 
-require('dotenv').config()
+// body-parser middlewares
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
-// server is listening on port 5000
+// remote MongoDB config
+const mongodb = require('./config/key').mongoURI
+
+// build remote connection to AWS Cloud MongoDB
+mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => console.log("Remote MongoDB connected successfully."))
+    .catch(err => console.log(err))
+
 const port = process.env.PORT || 5000
-
-// middlewares
-app.use(cors())
-app.use(express.json())
-
-// build remote connection to remote MongoDB
-const uri = process.env.ATLAS_URI
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
-const connection = mongoose.connection
-connection.once('open', () => {
-    console.log('Connect Remote MongoDB successfully!');
-})
-
 app.listen(port, () => {
-    console.log('Server is listening on port 5000...')
+    console.log(`Server is listening on port ${port}`)
 })
