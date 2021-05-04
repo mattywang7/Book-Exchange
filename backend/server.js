@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // remote MongoDB config
-const mongodb = require('./config/key').mongoURI
+const mongodb = require('./config/keys').mongoURI
 
 // build remote connection to AWS Cloud MongoDB
 mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true})
