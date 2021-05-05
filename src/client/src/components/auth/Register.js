@@ -1,5 +1,9 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {registerUser} from "../../actions/authActions";
+import {PropTypes} from 'prop-types'
+import classNames from "classnames";
 
 class Register extends Component {
     constructor() {
@@ -11,6 +15,21 @@ class Register extends Component {
             password: "",
             rePassword: "",
             errors: {}
+        }
+    }
+
+    // if the user already logged in, they should be redirect to dashboard
+    // componentDidMount() {
+    //     if (this.props.auth.isAuthenticated) {
+    //         this.props.history.push('/dashboard')
+    //     }
+    // }
+    //
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            })
         }
     }
 
@@ -29,7 +48,7 @@ class Register extends Component {
             rePassword: this.state.rePassword
         }
 
-        console.log(newUser)
+        this.props.registerUser(newUser, this.props.history)
     }
 
     render() {
@@ -57,40 +76,50 @@ class Register extends Component {
                                        value={this.state.firstName}
                                        error={errors.firstName}
                                        id={'firstName'}
-                                       type={'text'} />
+                                       type={'text'}
+                                       className={classNames("", {invalid: errors.firstName})} />
                                 <label htmlFor={'firstName'}>First Name</label>
+                                <span className={'red-text'}>{errors.firstName}</span>
                             </div>
                             <div className={'input-field col s12'}>
                                 <input onChange={this.onChange}
                                        value={this.state.lastName}
                                        error={errors.lastName}
                                        id={'lastName'}
-                                       type={'text'} />
+                                       type={'text'}
+                                       className={classNames("", {invalid: errors.lastName})} />
                                 <label htmlFor={'lastName'}>Last Name</label>
+                                <span className={'red-text'}>{errors.lastName}</span>
                             </div>
                             <div className={'input-field col s12'}>
                                 <input onChange={this.onChange}
                                        value={this.state.email}
                                        error={errors.email}
                                        id={'email'}
-                                       type={'email'} />
+                                       type={'email'}
+                                       className={classNames("", {invalid: errors.email})} />
                                 <label htmlFor={'email'}>Email</label>
+                                <span className={'red-text'}>{errors.email}</span>
                             </div>
                             <div className={'input-field col s12'}>
                                 <input onChange={this.onChange}
                                        value={this.state.password}
                                        error={errors.password}
                                        id={'password'}
-                                       type={'password'} />
+                                       type={'password'}
+                                       className={classNames("", {invalid: errors.password})} />
                                 <label htmlFor={'password'}>Password</label>
+                                <span className={'red-text'}>{errors.password}</span>
                             </div>
                             <div className={'input-field col s12'}>
                                 <input onChange={this.onChange}
                                        value={this.state.rePassword}
                                        error={errors.rePassword}
                                        id={'rePassword'}
-                                       type={'password'} />
+                                       type={'password'}
+                                       className={classNames("", {invalid: errors.rePassword})} />
                                 <label htmlFor={'rePassword'}>Confirm Password</label>
+                                <span className={'red-text'}>{errors.rePassword}</span>
                             </div>
                             <div className={'col s12'} style={{paddingLeft: '11.250px'}}>
                                 <button style={{
@@ -112,4 +141,23 @@ class Register extends Component {
     }
 }
 
-export default Register
+// cannot define types in constructor, thus define them using 'prop-types'
+Register.propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+
+}
+
+// get state from Redux and map it to props
+// then we can call this.props.auth and this.props.errors within Register component
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+// to redirect within an action
+export default connect(
+    mapStateToProps,
+    {registerUser}
+)(withRouter(Register))

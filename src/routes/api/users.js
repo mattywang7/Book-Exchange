@@ -62,7 +62,8 @@ router.post('/login', (req, res) => {
     User.findOne({email})
         .then(user => {
             if (!user) {
-                return res.status(400).json({userNotFound: 'User account does not exist.'})
+                errors.userNotFound = 'User account does not exist.'
+                return res.status(400).json(errors)
             }
 
             // user exists, check password
@@ -90,7 +91,8 @@ router.post('/login', (req, res) => {
                             }
                         )
                     } else {  // Login input not correct
-                        return res.status(400).json({passwordNotCorrect: 'Password not correct.'})
+                        errors.passwordNotCorrect = 'Password not correct.'
+                        return res.status(400).json(errors)
                     }
                 })
         })
