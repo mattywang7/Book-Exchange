@@ -1,6 +1,7 @@
 const validator = require('validator')
 const empty = require('is-empty')
 
+// check empty input fields and invalid email formats
 function validateLoginInput(data) {
     let errors = {}
 

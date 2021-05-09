@@ -17,10 +17,14 @@ const UserSchema = new Schema({
         required: true
     },
 
+    // unique
     email: {
         type: String,
+        unique: true,
         required: true
     }
+}, {
+    timestamps: true
 })
 
 const User = mongoose.model('users', UserSchema)
