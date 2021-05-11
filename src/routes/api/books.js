@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const asyncHandler = require('express-async-handler')
+const passport = require('passport')
+const privateAccess = require('../../middleware/authMiddleware')
 
 // for private access
-const auth = require('../../middleware/auth')
 
 const BookModel = require('../../models/Book')
 
@@ -12,7 +12,7 @@ const BookModel = require('../../models/Book')
  * @desc all the books available for sale of a specific seller
  * @access private
  */
-router.get('/books-for-sale', auth, (req, res) => {
+router.get('/books-for-sale', passport.authenticate('jwt', {session: false}), (req, res) => {
     BookModel.find({userId: req.user.id, purchased: false})
         .then(books => res.json(books))
         .catch(err => res.status(404).json({success: false, msg: "find books for sale failed!"}))
@@ -23,12 +23,12 @@ router.get('/books-for-sale', auth, (req, res) => {
  * @desc add a book for sell for a specific user
  * @access private
  */
-router.post('/add-for-sale', auth, (req, res) => {
+router.post('/add-for-sale', privateAccess, (req, res) => {
     // no need to check duplicate books
     // books will not be duplicates
 
     const newBook = new BookModel({
-        userId: req.user.id,
+        userId: req.user._id,
         title: req.body.title,
         author: req.body.author,
         category: req.body.category,
@@ -106,7 +106,7 @@ router.get('/:id', (req, res) => {
  * @desc delete the book by id
  * @access private
  */
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     BookModel.findById(req.params.id)
         .then(book => {
             if (book) {
@@ -126,7 +126,7 @@ router.delete('/:id', auth, (req, res) => {
  * @desc update the book info by bookId
  * @access private
  */
-router.put('/:id', auth, (req, res) => {
+router.put('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     const {
         title,
         author,
@@ -162,7 +162,7 @@ router.put('/:id', auth, (req, res) => {
  * @route PUT /api/books/{id}/sold
  * @desc After the book is chosen, the book is marked sold.
  */
-router.put('/:id/sold', auth, (req, res) => {
+router.put('/:id/sold', passport.authenticate('jwt', {session: false}), (req, res) => {
     BookModel.findById(req.params.id)
         .then(book => {
             if (book) {

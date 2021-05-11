@@ -13,6 +13,7 @@ import jwtDecode from "jwt-decode";
 import {logoutUser, setCurrentUser} from "./actions/authActions";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import AddBook from "./components/book/AddBook";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
 if (localStorage.jwtToken) {
@@ -43,6 +44,7 @@ class App extends Component {
                         <Route exact path={'/'} component={Landing} />
                         <Route exact path={'/register'} component={Register} />
                         <Route exact path={'/login'} component={Login} />
+                        <Route exact path={'/addbook'} component={AddBook} />
                         <Switch>
                             <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
                         </Switch>

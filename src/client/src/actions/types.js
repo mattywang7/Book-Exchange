@@ -2,5 +2,7 @@ export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
-export const ADD_BOOK_FOR_SALE = "ADD_BOOK_FOR_SALE"
+export const BOOK_ADD_SUCCESS = 'BOOK_ADD_SUCCESS'
+export const BOOK_ADD_FAIL = 'BOOK_ADD_FAIL'
+
 
