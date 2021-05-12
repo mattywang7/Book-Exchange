@@ -72,8 +72,7 @@ router.post('/login', (req, res) => {
                     if (isMatch) {
                         // Login input correct, create JWT payload
                         const payload = {
-                            id: user.id,
-                            username: user.firstName + " " + user.lastName
+                            id: user.id
                         }
 
                         jwt.sign(
@@ -86,7 +85,11 @@ router.post('/login', (req, res) => {
                             (err, token) => {
                                 res.json({
                                     success: true,
-                                    token: token
+                                    token: token,
+                                    id: user.id,
+                                    firstName: user.firstName,
+                                    lastName: user.lastName,
+                                    email: user.email
                                 })
                             }
                         )

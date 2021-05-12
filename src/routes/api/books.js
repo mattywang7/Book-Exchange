@@ -15,7 +15,7 @@ const BookModel = require('../../models/Book')
 router.get('/books-for-sale', passport.authenticate('jwt', {session: false}), (req, res) => {
     BookModel.find({userId: req.user.id, purchased: false})
         .then(books => res.json(books))
-        .catch(err => res.status(404).json({success: false, msg: "find books for sale failed!"}))
+        .catch(err => console.log(err))
 })
 
 /**
@@ -23,12 +23,12 @@ router.get('/books-for-sale', passport.authenticate('jwt', {session: false}), (r
  * @desc add a book for sell for a specific user
  * @access private
  */
-router.post('/add-for-sale', privateAccess, (req, res) => {
+router.post('/add-for-sale', passport.authenticate('jwt', {session: false}), (req, res) => {
     // no need to check duplicate books
     // books will not be duplicates
 
     const newBook = new BookModel({
-        userId: req.user._id,
+        userId: req.user.id,
         title: req.body.title,
         author: req.body.author,
         category: req.body.category,

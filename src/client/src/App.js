@@ -13,26 +13,25 @@ import jwtDecode from "jwt-decode";
 import {logoutUser, setCurrentUser} from "./actions/authActions";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
-import AddBook from "./components/book/AddBook";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
-if (localStorage.jwtToken) {
-    const token = localStorage.jwtToken
-    setAuthToken(token)
-    // decode token and get user info and exp
-    const decoded = jwtDecode(token)
-    // set user and isAuthenticated
-    store.dispatch(setCurrentUser(decoded))
-
-    // check for expired token
-    const currentTime = Date.now() / 1000  // ms
-    if (decoded.exp < currentTime) {
-        // token expired, logout user
-        store.dispatch(logoutUser())
-        // need login, redirect to login
-        window.location.href = './login'
-    }
-}
+// if (localStorage.jwtToken) {
+//     const token = localStorage.jwtToken
+//     setAuthToken(token)
+//     // decode token and get user info and exp
+//     const decoded = jwtDecode(token)
+//     // set user and isAuthenticated
+//     store.dispatch(setCurrentUser(decoded))
+//
+//     // check for expired token
+//     const currentTime = Date.now() / 1000  // ms
+//     if (decoded.exp < currentTime) {
+//         // token expired, logout user
+//         store.dispatch(logoutUser())
+//         // need login, redirect to login
+//         window.location.href = './login'
+//     }
+// }
 
 class App extends Component {
     render() {
@@ -44,7 +43,6 @@ class App extends Component {
                         <Route exact path={'/'} component={Landing} />
                         <Route exact path={'/register'} component={Register} />
                         <Route exact path={'/login'} component={Login} />
-                        <Route exact path={'/addbook'} component={AddBook} />
                         <Switch>
                             <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
                         </Switch>

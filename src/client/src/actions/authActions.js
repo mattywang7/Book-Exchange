@@ -23,14 +23,13 @@ export const loginUser = userData => dispatch => {
             // set token to localStorage
             const {token} = res.data
             localStorage.setItem('jwtToken', token)
-            localStorage.setItem('user', JSON.stringify(res.data))
             // set token to auth header
             setAuthToken(token)
             // decode token to get user data
             const decoded = jwtDecode(token)
             // set current user
-            dispatch(setCurrentUser(decoded))
-            alert('User logged in!')  // display for dev only
+            dispatch(setCurrentUser(res.data))
+            // alert('User logged in!')  // display for dev only
         })
         .catch(err => {
             dispatch({
