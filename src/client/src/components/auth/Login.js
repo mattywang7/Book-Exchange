@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import PropTypes from 'prop-types'
-import {loginUser} from "../../actions/authActions";
+// import {loginUser} from "../../actions/authActions";
 import classNames from "classnames";
 import {connect} from "react-redux";
+import {loginAction} from "../../actions/authActions";
 
 class Login extends Component {
     constructor() {
@@ -42,12 +43,14 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault()
 
-        const userData = {
-            email: this.state.email,
-            password: this.state.password
-        }
+        // const userData = {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // }
+        const inputEmail = this.state.email
+        const inputPassword = this.state.password
 
-        this.props.loginUser(userData)
+        this.props.loginAction(inputEmail, inputPassword)
     }
 
     render() {
@@ -116,7 +119,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-    loginUser: PropTypes.func.isRequired,
+    loginAction: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 }
@@ -128,5 +131,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {loginUser}
+    {loginAction}
 )(withRouter(Login))

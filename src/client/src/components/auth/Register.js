@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {registerUser} from "../../actions/authActions";
+import {registerAction, registerUser} from "../../actions/authActions";
 import {PropTypes} from 'prop-types'
 import classNames from "classnames";
 
@@ -40,15 +40,20 @@ class Register extends Component {
     onSubmit = e => {
         e.preventDefault()
 
-        const newUser = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-            rePassword: this.state.rePassword
-        }
+        // const newUser = {
+        //     firstName: this.state.firstName,
+        //     lastName: this.state.lastName,
+        //     email: this.state.email,
+        //     password: this.state.password,
+        //     rePassword: this.state.rePassword
+        // }
+        const inputFirstName = this.state.firstName
+        const inputLastName = this.state.lastName
+        const inputEmail = this.state.email
+        const inputPassword = this.state.password
+        const inputRePassword = this.state.rePassword
 
-        this.props.registerUser(newUser, this.props.history)
+        this.props.registerAction(inputFirstName, inputLastName, inputEmail, inputPassword, inputRePassword, this.props.history)
     }
 
     render() {
@@ -143,7 +148,7 @@ class Register extends Component {
 
 // cannot define types in constructor, thus define them using 'prop-types'
 Register.propTypes = {
-    registerUser: PropTypes.func.isRequired,
+    registerAction: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 
@@ -159,5 +164,5 @@ const mapStateToProps = state => ({
 // to redirect within an action
 export default connect(
     mapStateToProps,
-    {registerUser}
+    {registerAction}
 )(withRouter(Register))
