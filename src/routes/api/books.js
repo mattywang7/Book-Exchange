@@ -173,7 +173,7 @@ router.get('/:id', (req, res) => {
             }
         })
         .catch(err => {
-            res.status(404).json({success: false, msg: 'Why is this message?'})
+            res.status(404).json({success: false, msg: 'This book does not exist.'})
         })
 })
 
@@ -201,7 +201,7 @@ router.delete('/:id', privateAccess, (req, res) => {
  * @route PUT /api/books/{id}/sold
  * @desc After the book is chosen, the book is marked sold.
  */
-router.put('/:id/sold', (req, res) => {
+router.put('/request/:id', (req, res) => {
     BookModel.findById(req.params.id)
         .then(book => {
             if (book) {

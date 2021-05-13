@@ -14,6 +14,7 @@ import {logoutUser, setCurrentUser} from "./actions/authActions";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Guest from "./components/book/Guest";
+import ViewBook from "./components/book/ViewBook";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
 // if (localStorage.jwtToken) {
@@ -42,6 +43,8 @@ class App extends Component {
                     <div className={'App'}>
                         <Navbar />
                         <Route exact path={'/'} component={Guest} />
+                        <Route exact path={'/search/:type/:keyword'} component={Guest} />
+                        <Route exact path={'/books/:id'} component={ViewBook} />
                         <Route exact path={'/home'} component={Landing} />
                         <Route exact path={'/register'} component={Register} />
                         <Route exact path={'/login'} component={Login} />

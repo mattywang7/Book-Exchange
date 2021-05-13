@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {guestBookAction} from "../../actions/bookAction";
 import {Col, Row} from "react-bootstrap";
 import SearchBox from "../layout/SearchBox";
-import Book from "../dashboard/Book";
+import Book from "../layout/Book";
 
 const Guest = ({match}) => {
     const type = match.params.type
@@ -11,11 +11,11 @@ const Guest = ({match}) => {
 
     const dispatch = useDispatch()
 
-    const {books, error} = useSelector(state => state.guestBookState)
-
     useEffect(() => {
         dispatch(guestBookAction(type, keyword))
     }, [dispatch, type, keyword])
+
+    const {books, error} = useSelector(state => state.guestBookState)
 
     return (
         <>
