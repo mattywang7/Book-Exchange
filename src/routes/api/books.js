@@ -144,9 +144,7 @@ router.get('/mybooks', privateAccess, (req, res) => {
         .then(books => {
             res.json(books)
         })
-        .catch(err => {
-            res.status(404).json({success: false, msg: 'There is no book now.'})
-        })
+        .catch(err => console.log(err))
 })
 
 // router.post('/:id/add-review', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -201,7 +199,7 @@ router.delete('/:id', privateAccess, (req, res) => {
  * @route PUT /api/books/{id}/sold
  * @desc After the book is chosen, the book is marked sold.
  */
-router.put('/request/:id', (req, res) => {
+router.put('/sold/:id', (req, res) => {
     BookModel.findById(req.params.id)
         .then(book => {
             if (book) {
@@ -211,12 +209,10 @@ router.put('/request/:id', (req, res) => {
                     .then(() => {
                         res.json(book)
                     })
-                    .catch(res.status(404).json({success: false, msg: 'Cannot mark the chosen book to sold'}))
+                    .catch(err => console.log(err))
             }
         })
-        .catch(err => {
-            res.status(404).json({success: false, msg: 'Cannot find the book to mark sold'})
-        })
+        .catch(err => console.log(err))
 })
 
 module.exports = router

@@ -61,7 +61,7 @@ export const viewOneBookAction = id => async (dispatch) => {
 
 export const requestBookAction = (id) => async (dispatch) => {
     try {
-        const {data} = await axios.put(`/api/books/request/${id}`)
+        const {data} = await axios.put(`/api/books/sold/${id}`)
         dispatch({
             type: BOOK_REQUEST_SUCCESS,
             payload: data

@@ -16,7 +16,7 @@ const ViewBook = ({match, history}) => {
 
     const requestBookClick = () => {
         dispatch(requestBookAction(match.params.id))
-
+        history.push('/')
     }
 
     return (
