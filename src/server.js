@@ -15,6 +15,7 @@ const passport = require('passport')
 
 const userRouter = require('./routes/api/users')
 const bookRouter = require('./routes/api/books')
+const uploadRouter = require('./routes/api/uploadRoutes')
 
 const app = express()
 
@@ -38,6 +39,7 @@ mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use('/api/users', userRouter)
 app.use('/api/books', bookRouter)
+app.use('/api/upload', uploadRouter)
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {

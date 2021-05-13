@@ -4,6 +4,7 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 /**************** User Types **********************/
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 
 
 /**************** Book Types **********************/
@@ -18,3 +19,6 @@ export const BOOK_VIEW_ONE_FAILURE = 'BOOK_VIEW_ONE_FAILURE'
 
 export const BOOK_REQUEST_SUCCESS = 'BOOK_REQUEST_SUCCESS'
 export const BOOK_REQUEST_FAILURE = 'BOOK_REQUEST_FAILURE'
+
+export const BOOK_ADD_NEW_SUCCESS = 'BOOK_ADD_NEW_SUCCESS'
+export const BOOK_ADD_NEW_FAILURE = 'BOOK_ADD_NEW_FAILURE'

@@ -1,9 +1,16 @@
 import axios from "axios";
 import {
+    BOOK_ADD_NEW_FAILURE,
+    BOOK_ADD_NEW_SUCCESS,
     BOOK_GUEST_SEARCH_FAILURE,
     BOOK_GUEST_SEARCH_SUCCESS,
     BOOK_MY_BOOKS_FAILURE,
-    BOOK_MY_BOOKS_SUCCESS, BOOK_REQUEST_FAILURE, BOOK_REQUEST_SUCCESS, BOOK_VIEW_ONE_FAILURE, BOOK_VIEW_ONE_SUCCESS
+    BOOK_MY_BOOKS_SUCCESS,
+    BOOK_REQUEST_FAILURE,
+    BOOK_REQUEST_SUCCESS,
+    BOOK_VIEW_ONE_FAILURE,
+    BOOK_VIEW_ONE_SUCCESS,
+    GET_ERRORS
 } from "./types";
 
 // get all books for a specific user
@@ -69,6 +76,29 @@ export const requestBookAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: BOOK_REQUEST_FAILURE,
+            payload: error.response.data
+        })
+    }
+}
+
+export const addNewBookAction = (newBook, history) => async (dispatch, getState) => {
+    try {
+        const {auth: {user}} = getState()
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        const {data} = await axios.post('/api/books/add-for-sale', newBook, config)
+        dispatch({
+            type: BOOK_ADD_NEW_SUCCESS,
+            payload: data
+        })
+        history.push('/dashboard')
+    } catch (error) {
+        dispatch({
+            type: GET_ERRORS,
             payload: error.response.data
         })
     }

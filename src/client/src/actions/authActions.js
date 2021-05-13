@@ -3,7 +3,7 @@ import {
     GET_ERRORS,
     SET_CURRENT_USER,
     USER_LOADING,
-    USER_LOGIN_SUCCESS,
+    USER_LOGIN_SUCCESS, USER_REGISTER_SUCCESS,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 import jwtDecode from "jwt-decode";
@@ -36,7 +36,7 @@ export const logoutUser = () => dispatch => {
     dispatch(setCurrentUser({}))
 }
 
-export const registerAction = (firstName, lastName, email, password, rePassword, history) => async (dispatch) => {
+export const registerAction = (userData, history) => async (dispatch) => {
     try {
         const config = {
             headers: {
@@ -44,7 +44,7 @@ export const registerAction = (firstName, lastName, email, password, rePassword,
             }
         }
 
-        const {data} = await axios.post('/api/users/register', {firstName, lastName, email, password, rePassword}, config)
+        const {data} = await axios.post('/api/users/register', userData, config)
         // dispatch({
         //     type: USER_REGISTER_SUCCESS,
         //     payload: data
@@ -61,7 +61,7 @@ export const registerAction = (firstName, lastName, email, password, rePassword,
     }
 }
 
-export const loginAction = (email, password) => async (dispatch) => {
+export const loginAction = (userData) => async (dispatch) => {
     try {
         const config = {
             headers: {
@@ -69,7 +69,7 @@ export const loginAction = (email, password) => async (dispatch) => {
             }
         }
 
-        const {data} = await axios.post('/api/users/login', {email, password}, config)
+        const {data} = await axios.post('/api/users/login', userData, config)
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data

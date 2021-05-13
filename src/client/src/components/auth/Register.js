@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {registerAction, registerUser} from "../../actions/authActions";
+import {registerAction} from "../../actions/authActions";
 import {PropTypes} from 'prop-types'
 import classNames from "classnames";
 
@@ -19,19 +19,19 @@ class Register extends Component {
     }
 
     // if the user already logged in, they should be redirect to dashboard
-    // componentDidMount() {
-    //     if (this.props.auth.isAuthenticated) {
-    //         this.props.history.push('/dashboard')
-    //     }
-    // }
-    //
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     if (nextProps.errors) {
-    //         this.setState({
-    //             errors: nextProps.errors
-    //         })
-    //     }
-    // }
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard')
+        }
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            })
+        }
+    }
 
     onChange = e => {
         this.setState({[e.target.id]: e.target.value})
@@ -40,20 +40,20 @@ class Register extends Component {
     onSubmit = e => {
         e.preventDefault()
 
-        // const newUser = {
-        //     firstName: this.state.firstName,
-        //     lastName: this.state.lastName,
-        //     email: this.state.email,
-        //     password: this.state.password,
-        //     rePassword: this.state.rePassword
-        // }
-        const inputFirstName = this.state.firstName
-        const inputLastName = this.state.lastName
-        const inputEmail = this.state.email
-        const inputPassword = this.state.password
-        const inputRePassword = this.state.rePassword
+        const newUser = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+            rePassword: this.state.rePassword
+        }
+        // const inputFirstName = this.state.firstName
+        // const inputLastName = this.state.lastName
+        // const inputEmail = this.state.email
+        // const inputPassword = this.state.password
+        // const inputRePassword = this.state.rePassword
 
-        this.props.registerAction(inputFirstName, inputLastName, inputEmail, inputPassword, inputRePassword, this.props.history)
+        this.props.registerAction(newUser, this.props.history)
     }
 
     render() {

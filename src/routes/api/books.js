@@ -7,6 +7,7 @@ const asyncHandler = require('express-async-handler')
 // for private access
 
 const BookModel = require('../../models/Book')
+const validateBookInfo = require("../../validation/addBook");
 
 /**
  * @route GET /api/books/books-for-sale
@@ -25,6 +26,12 @@ router.get('/books-for-sale', privateAccess, (req, res) => {
  * @access private
  */
 router.post('/add-for-sale', privateAccess, (req, res) => {
+    const {errors, isValid} = validateBookInfo(req.body)
+
+    if (!isValid) {
+        return res.status(400).json(errors)
+    }
+
     const newBook = new BookModel({
         userId: req.user._id,
         title: req.body.title,
@@ -40,7 +47,7 @@ router.post('/add-for-sale', privateAccess, (req, res) => {
 
     newBook.save()
         .then(book => res.json(book))
-        .catch(err => res.status(404).json(err))
+        .catch(err => console.log(err))
 })
 
 /**

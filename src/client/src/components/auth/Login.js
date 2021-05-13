@@ -43,14 +43,14 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault()
 
-        // const userData = {
-        //     email: this.state.email,
-        //     password: this.state.password
-        // }
-        const inputEmail = this.state.email
-        const inputPassword = this.state.password
+        const userData = {
+            email: this.state.email,
+            password: this.state.password
+        }
+        // const inputEmail = this.state.email
+        // const inputPassword = this.state.password
 
-        this.props.loginAction(inputEmail, inputPassword)
+        this.props.loginAction(userData)
     }
 
     render() {
