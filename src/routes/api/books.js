@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const privateAccess = require('../../middleware/authMiddleware')
+const asyncHandler = require('express-async-handler')
 
 // for private access
 
@@ -12,8 +13,8 @@ const BookModel = require('../../models/Book')
  * @desc all the books available for sale of a specific seller
  * @access private
  */
-router.get('/books-for-sale', passport.authenticate('jwt', {session: false}), (req, res) => {
-    BookModel.find({userId: req.user.id, purchased: false})
+router.get('/books-for-sale', privateAccess, (req, res) => {
+    BookModel.find({userId: req.user._id, forSale: true})
         .then(books => res.json(books))
         .catch(err => console.log(err))
 })
@@ -23,23 +24,23 @@ router.get('/books-for-sale', passport.authenticate('jwt', {session: false}), (r
  * @desc add a book for sell for a specific user
  * @access private
  */
-router.post('/add-for-sale', passport.authenticate('jwt', {session: false}), (req, res) => {
-    // no need to check duplicate books
-    // books will not be duplicates
-
+router.post('/add-for-sale', privateAccess, (req, res) => {
     const newBook = new BookModel({
-        userId: req.user.id,
+        userId: req.user._id,
         title: req.body.title,
         author: req.body.author,
         category: req.body.category,
         condition: req.body.condition,
         price: req.body.price,
-        // image: req.body.image
+        image: req.body.image,
+        forSale: true
     })
+
+
 
     newBook.save()
         .then(book => res.json(book))
-        .catch(err => res.status(404).json({success: false, msg: "add book for sale failed!"}))
+        .catch(err => res.status(404).json(err))
 })
 
 /**
@@ -80,59 +81,31 @@ router.get('/search', (req, res) => {
             }
         }
     }
-    const booksOfInterest = BookModel.find({...keyword})  // not completed, TODO: purchased === false
-    res.json(booksOfInterest)
-})
-
-/**
- * @route GET /api/books/{id}
- * @desc the book by bookId
- * @access public
- */
-router.get('/:id', (req, res) => {
-    BookModel.findById(req.params.id)
-        .then(book => {
-            if (book) {
-                res.json(book)
-            }
-        })
-        .catch(err => {
-            res.status(404).json({success: false, msg: 'This book id does not exist.'})
+    // const booksOfInterest = BookModel.find({...keyword})  // not completed, TODO: purchased === false
+    // res.json(booksOfInterest)
+    // filer: purchased
+    BookModel.find({...keyword, forSale: true})
+        .then(bookOfInterest => {
+            res.json(bookOfInterest)
         })
 })
 
-/**
- * @route DELETE /api/books/{id}
- * @desc delete the book by id
- * @access private
- */
-router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-    BookModel.findById(req.params.id)
-        .then(book => {
-            if (book) {
-                book.remove()
-                    .then(() => {
-                        res.json({success: true, msg: 'Delete book successfully!'})
-                    })
-            }
-        })
-        .catch(err => {
-            res.status(404).json({success: false, msg: 'This book id does not exist, cannot delete'})
-        })
-})
+
 
 /**
  * @route PUT /api/books/{id}
  * @desc update the book info by bookId
  * @access private
  */
-router.put('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.put('/:id', privateAccess, (req, res) => {
     const {
         title,
         author,
         category,
         condition,
-        price
+        price,
+        image,
+        forSale
     } = req.body
 
     BookModel.findById(req.params.id)
@@ -143,6 +116,8 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
                 book.category = category
                 book.condition = condition
                 book.price = price
+                book.image = image
+                book.forSale = forSale
 
                 book.save()
                     .then(() => {
@@ -158,11 +133,75 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
         })
 })
 
+
+
+/**
+ * @route GET /api/books/mybooks
+ * @desc all my books (purchased and sold)
+ */
+router.get('/mybooks', privateAccess, (req, res) => {
+    BookModel.find({userId: req.user._id})
+        .then(books => {
+            res.json(books)
+        })
+        .catch(err => {
+            res.status(404).json({success: false, msg: 'There is no book now.'})
+        })
+})
+
+// router.post('/:id/add-review', passport.authenticate('jwt', {session: false}), (req, res) => {
+//     const score = req.body.score
+//     const text = req.body.text
+//     BookModel.findById(req.params.id)
+//         .then(book => {
+//             if (book) {
+//
+//             }
+//         })
+// })
+
+/**
+ * @route GET /api/books/{id}
+ * @desc the book by bookId
+ * @access public
+ */
+router.get('/:id', (req, res) => {
+    BookModel.findById(req.params.id)
+        .then(book => {
+            if (book) {
+                res.json(book)
+            }
+        })
+        .catch(err => {
+            res.status(404).json({success: false, msg: 'Why is this message?'})
+        })
+})
+
+/**
+ * @route DELETE /api/books/{id}
+ * @desc delete the book by id
+ * @access private
+ */
+router.delete('/:id', privateAccess, (req, res) => {
+    BookModel.findById(req.params.id)
+        .then(book => {
+            if (book) {
+                book.remove()
+                    .then(() => {
+                        res.json({success: true, msg: 'Delete book successfully!'})
+                    })
+            }
+        })
+        .catch(err => {
+            res.status(404).json({success: false, msg: 'This book id does not exist, cannot delete'})
+        })
+})
+
 /**
  * @route PUT /api/books/{id}/sold
  * @desc After the book is chosen, the book is marked sold.
  */
-router.put('/:id/sold', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.put('/:id/sold', (req, res) => {
     BookModel.findById(req.params.id)
         .then(book => {
             if (book) {

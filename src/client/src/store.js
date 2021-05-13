@@ -4,20 +4,24 @@
  */
 
 import thunk from "redux-thunk";
-import {applyMiddleware, compose, createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import rootReducer from './reducers'
+import {composeWithDevTools} from "redux-devtools-extension";
 
-const initialState = {}
+const userInfoFromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+
+const initialState = {
+    auth: {
+        user: userInfoFromLocalStorage
+    }
+}
 
 const middleware = [thunk]
 
 const store = createStore(
     rootReducer,
     initialState,
-    compose(
-        applyMiddleware(...middleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+    composeWithDevTools(applyMiddleware(...middleware))
 )
 
 export default store

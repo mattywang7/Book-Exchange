@@ -18,11 +18,11 @@ class Login extends Component {
 
     // push user to dashboard when they log in
     // '/dashboard' will be a private route that only logged in users can view it
-    // componentDidMount() {
-    //     if (this.props.auth.isAuthenticated) {
-    //         this.props.history.push('/dashboard')
-    //     }
-    // }
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard')
+        }
+    }
     //
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.auth.isAuthenticated) {

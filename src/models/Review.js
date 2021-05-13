@@ -17,8 +17,8 @@ const ReviewSchema = new Schema({
         type: String
     },
 
-    rating: {
-        type: String,
+    score: {
+        type: Number,
         required: true
     }
 }, {

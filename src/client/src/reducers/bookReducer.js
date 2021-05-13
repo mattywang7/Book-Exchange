@@ -1,27 +1,36 @@
-import {BOOK_ADD_SUCCESS, BOOK_DELETE_SUCCESS, BOOK_FOR_SALE_GET} from "../actions/types";
+import {
+    BOOK_GUEST_SEARCH_FAILURE,
+    BOOK_GUEST_SEARCH_SUCCESS,
+    BOOK_MY_BOOKS_FAILURE,
+    BOOK_MY_BOOKS_SUCCESS
+} from "../actions/types";
 
-const initialState = {
-    books: []
-}
 
-export default function(state = initialState, action) {
+
+export const myBookReducer = (state = {books: []}, action) => {
     switch (action.type) {
-        case BOOK_FOR_SALE_GET:
+        case BOOK_MY_BOOKS_SUCCESS:
             return {
-                ...state,
                 books: action.payload
             }
-        case BOOK_DELETE_SUCCESS:
+        case BOOK_MY_BOOKS_FAILURE:
             return {
-                ...state,
-                books: state.books.filter(
-                    book => book._id !== action.payload
-                )
+                error: action.payload
             }
-        case BOOK_ADD_SUCCESS:
+        default:
+            return state
+    }
+}
+
+export const guestBookReducer = (state = {books: []}, action) => {
+    switch (action.type) {
+        case BOOK_GUEST_SEARCH_SUCCESS:
             return {
-                ...state,
-                books: [action.payload, ...state.books]
+                books: action.payload
+            }
+        case BOOK_GUEST_SEARCH_FAILURE:
+            return {
+                error: action.payload
             }
         default:
             return state

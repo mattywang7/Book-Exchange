@@ -1,46 +1,45 @@
 import axios from "axios";
-import {BOOK_ADD_FAIL, BOOK_ADD_SUCCESS, BOOK_DELETE_SUCCESS, BOOK_FOR_SALE_GET} from "./types";
+import {
+    BOOK_GUEST_SEARCH_FAILURE,
+    BOOK_GUEST_SEARCH_SUCCESS,
+    BOOK_MY_BOOKS_FAILURE,
+    BOOK_MY_BOOKS_SUCCESS
+} from "./types";
 
-export const addBook = bookData => dispatch => {
-    const books = bookData.books
-    axios.post('/api/books/add-for-sale', bookData)
-        .then(res => {
-            dispatch({
-                type: BOOK_ADD_SUCCESS,
-                payload: res.data  // return the newly created book data
-            })
+// get all books for a specific user
+export const myBookAction = () => async (dispatch, getState) => {
+    try {
+        const {auth : {user}} = getState()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        const {data} = await axios.get('/api/books/mybooks', config)
+        dispatch({
+            type: BOOK_MY_BOOKS_SUCCESS,
+            payload: data
         })
-        .catch(err => console.log(err))
+    } catch (error) {
+        dispatch({
+            type: BOOK_MY_BOOKS_FAILURE,
+            payload: error.response.data
+        })
+    }
 }
 
-// get all books-for-sale for specific user
-export const getBooks = () => dispatch => {
-    axios.get('/api/books/books-for-sale')
-        .then(res => {
-            dispatch({
-                type: BOOK_FOR_SALE_GET,
-                payload: res.data
-            })
+//
+export const guestBookAction = (type = '', keyword = '') => async (dispatch) => {
+    try {
+        const {data} = await axios.get(`/api/books/search?type=${type}&keyword=${keyword}`)
+        dispatch({
+            type: BOOK_GUEST_SEARCH_SUCCESS,
+            payload: data
         })
-        .catch(err => {
-            dispatch({
-                type: BOOK_FOR_SALE_GET,
-                payload: null
-            })
+    } catch (error) {
+        dispatch({
+            type: BOOK_GUEST_SEARCH_FAILURE,
+            payload: error.response.data
         })
-}
-
-// delete one book
-export const deleteBook = bookData => dispatch => {
-    if (window.confirm('Are you sure to delete this book?')) {
-        const id = bookData.id
-        axios.delete(`/api/books/${id}`)
-            .then(res => {
-                dispatch({
-                    type: BOOK_DELETE_SUCCESS,
-                    payload: id
-                })
-            })
-            .catch(err => console.log(err))
     }
 }

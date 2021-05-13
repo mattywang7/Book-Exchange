@@ -18,9 +18,11 @@ const bookRouter = require('./routes/api/books')
 
 const app = express()
 
+app.use(express.json())
+
 // body-parser middlewares
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
 
 // remote MongoDB config
 const mongodb = require('./config/keys').mongoURI
@@ -30,9 +32,9 @@ mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Remote MongoDB connected successfully."))
     .catch(err => console.log(err))
 
-app.use(passport.initialize())
+// app.use(passport.initialize())
 
-require('./config/passport')(passport)
+// require('./config/passport')(passport)
 
 app.use('/api/users', userRouter)
 app.use('/api/books', bookRouter)

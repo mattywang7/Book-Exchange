@@ -43,10 +43,10 @@ const BookSchema = new Schema({
         required: true
     },
 
-    // image: {
-    //     type: String,
-    //     required: true
-    // },
+    image: {
+        type: String,
+        required: true
+    },
 
     sold: {
         type: Boolean,
@@ -60,9 +60,22 @@ const BookSchema = new Schema({
         default: false
     },
 
+    forSale: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+
     // reviews: [
     //     ReviewSchema
-    // ]
+    // ],
+
+    // reviewNumber: {
+    //     type: Number,
+    //     required: true,
+    //     default: 0
+    // }
+
 }, {
     // automatically manage createdAt and updatedAt
     timestamps: true
