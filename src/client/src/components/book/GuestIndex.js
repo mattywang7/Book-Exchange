@@ -5,6 +5,9 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import SearchBox from "../layout/SearchBox";
 
+import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
 class GuestIndex extends Component {
 
     render() {
