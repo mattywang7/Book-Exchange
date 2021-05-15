@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     BOOK_ADD_NEW_FAILURE,
-    BOOK_ADD_NEW_SUCCESS,
+    BOOK_ADD_NEW_SUCCESS, BOOK_DELETE_FAILURE, BOOK_DELETE_SUCCESS,
     BOOK_GUEST_SEARCH_FAILURE,
     BOOK_GUEST_SEARCH_SUCCESS,
     BOOK_MY_BOOKS_FAILURE,
@@ -99,6 +99,26 @@ export const addNewBookAction = (newBook, history) => async (dispatch, getState)
     } catch (error) {
         dispatch({
             type: GET_ERRORS,
+            payload: error.response.data
+        })
+    }
+}
+
+export const deleteBookAction = (id) => async (dispatch, getState) => {
+    try {
+        const {auth: {user}} = getState()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        await axios.delete(`/api/books/${id}`, config)
+        dispatch({
+            type: BOOK_DELETE_SUCCESS,
+        })
+    } catch (error) {
+        dispatch({
+            type: BOOK_DELETE_FAILURE,
             payload: error.response.data
         })
     }

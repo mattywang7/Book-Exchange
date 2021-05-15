@@ -45,7 +45,7 @@ const BookSchema = new Schema({
 
     image: {
         type: String,
-        required: true
+        default: 'abc'
     },
 
     sold: {

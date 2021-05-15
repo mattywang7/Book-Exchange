@@ -15,7 +15,7 @@ class AddNewBook extends Component {
             category: '',
             condition: '',
             price: '',
-            image: '',
+            // image: '',
             errors: {}
         }
     }
@@ -38,22 +38,22 @@ class AddNewBook extends Component {
         this.setState({[e.target.id]: e.target.value})
     }
 
-    onUploadImage = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-        formData.append('image', file)
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-            const {data} = await axios.post('/api/upload', formData, config)
-            this.onChange(e)
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    // onUploadImage = async (e) => {
+    //     const file = e.target.files[0]
+    //     const formData = new FormData()
+    //     formData.append('image', file)
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         }
+    //         const {data} = await axios.post('/api/upload', formData, config)
+    //         this.onChange(e)
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     onSubmit = e => {
         e.preventDefault()
@@ -113,7 +113,7 @@ class AddNewBook extends Component {
                                 <span className={'red-text'}>{errors.category}</span>
                             </div>
                             <div className={'input-field col s12'}>
-                                <input onChange={this.onUploadImage}
+                                <input onChange={this.onChange}
                                        value={this.state.condition}
                                        error={errors.condition}
                                        id={'condition'}
@@ -138,13 +138,13 @@ class AddNewBook extends Component {
                                     {errors.priceNotValid}
                                 </span>
                             </div>
-                            <div className={'input-field col s12'}>
-                                <input onChange={this.onChange}
-                                       value={this.state.image}
-                                       id={'image'}
-                                       type={'file'} />
-                                <label htmlFor={'image'}>Image</label>
-                            </div>
+                            {/*<div className={'input-field col s12'}>*/}
+                            {/*    <input onChange={this.onChange}*/}
+                            {/*           value={this.state.image}*/}
+                            {/*           id={'image'}*/}
+                            {/*           type={'file'} />*/}
+                            {/*    <label htmlFor={'image'}>Image</label>*/}
+                            {/*</div>*/}
                             <div className={'col s12'} style={{paddingLeft: '11.250px'}}>
                                 <button style={{
                                     width: '150px',

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-// import './App.css';
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
@@ -8,14 +7,12 @@ import Login from "./components/auth/Login";
 
 import {Provider} from "react-redux";
 import store from './store'
-import setAuthToken from "./utils/setAuthToken";
-import jwtDecode from "jwt-decode";
-import {logoutUser, setCurrentUser} from "./actions/authActions";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
-import Guest from "./components/book/Guest";
 import ViewBook from "./components/book/ViewBook";
 import AddNewBook from "./components/book/AddNewBook";
+import GuestIndex from "./components/book/GuestIndex";
+import SearchedBooks from "./components/book/SearchedBooks";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
 // if (localStorage.jwtToken) {
@@ -43,8 +40,8 @@ class App extends Component {
                 <Router>
                     <div className={'App'}>
                         <Navbar />
-                        <Route exact path={'/'} component={Guest} />
-                        <Route exact path={'/search/:type/:keyword'} component={Guest} />
+                        <Route exact path={'/'} component={GuestIndex} />
+                        <Route exact path={'/search/:type/:keyword'} component={SearchedBooks} />
                         <Route exact path={'/books/:id'} component={ViewBook} />
                         <Route exact path={'/home'} component={Landing} />
                         <Route exact path={'/register'} component={Register} />

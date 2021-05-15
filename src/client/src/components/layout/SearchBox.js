@@ -23,9 +23,9 @@ const SearchBox = ({ history, type }) => {
                 placeholder={`Search by ${type}...`}
                 className="mr-sm-2 ml-sm-5"
             />
-            <Button type="submit" variant="outline-success" className="p-2">
+            <button type={'submit'} className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                 Search
-            </Button>
+            </button>
         </Form>
     )
 }

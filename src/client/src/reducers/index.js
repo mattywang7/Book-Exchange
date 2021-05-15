@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import authReducers from "./authReducers";
 import errorReducers from "./errorReducers";
 import {
-    addNewBookReducer,
+    addNewBookReducer, deleteBookReducer,
     guestBookReducer,
     myBookReducer,
     requestBookReducer,
@@ -17,6 +17,7 @@ export default combineReducers({
     guestBookState: guestBookReducer,
     viewOneBookState: viewOneBookReducer,
     requestBookState: requestBookReducer,
-    addNewBookState: addNewBookReducer
+    addNewBookState: addNewBookReducer,
+    deleteBookState: deleteBookReducer
 })
 

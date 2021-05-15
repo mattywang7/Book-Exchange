@@ -1,6 +1,6 @@
 import {
     BOOK_ADD_NEW_FAILURE,
-    BOOK_ADD_NEW_SUCCESS,
+    BOOK_ADD_NEW_SUCCESS, BOOK_DELETE_FAILURE, BOOK_DELETE_SUCCESS,
     BOOK_GUEST_SEARCH_FAILURE,
     BOOK_GUEST_SEARCH_SUCCESS,
     BOOK_MY_BOOKS_FAILURE,
@@ -74,6 +74,21 @@ export const addNewBookReducer = (state = {book: {}}, action) => {
         case BOOK_ADD_NEW_SUCCESS:
             return {
                 book: action.payload
+            }
+        default:
+            return state
+    }
+}
+
+export const deleteBookReducer = (state = {}, action) => {
+    switch (action.type) {
+        case BOOK_DELETE_SUCCESS:
+            return {
+                success: true
+            }
+        case BOOK_DELETE_FAILURE:
+            return {
+                error: action.payload
             }
         default:
             return state

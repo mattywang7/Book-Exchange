@@ -6,6 +6,19 @@
  * User1:
  * Matty
  * mongodb@123
+ *
+ * TODO:
+ * - Redirect guest to login page when they decide to buy
+ * - Information of arrangements and the discussions on arranging the offline exchange
+ * - When a request is made:
+ *   - Mark the book as sold  ✅
+ *   - Notify the seller with the buyer information and the chosen book
+ *   - seller notify the buyer within 48 hours
+ *   - After exchange is completed, seller update the record of the book
+ * - Maintain an open order until the sell sends a notification
+ * - List sold / purchased books over a period of time
+ * - Buyers can add a review for a book they have bought after the exchange is confirmed
+ *
  */
 
 const express = require('express')

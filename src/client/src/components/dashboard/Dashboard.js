@@ -5,6 +5,8 @@ import {logoutUser} from "../../actions/authActions";
 import Spinner from "./Spinner";
 import {Link} from "react-router-dom";
 import {myBookAction} from "../../actions/bookAction";
+import {Col} from "react-bootstrap";
+import Book from "../layout/Book";
 
 class Dashboard extends Component {
 
@@ -28,44 +30,15 @@ class Dashboard extends Component {
 
         let dashboardContent
 
-        // if (books.length === 0) {
-        //     dashboardContent = (
-        //         <div className={'row'}>
-        //             <div className={'col s12 center-align'}>
-        //                 <h4>
-        //                     <b>Welcome,</b> {user.firstName} {user.lastName}!
-        //                 </h4>
-        //                 <p className={'flow-text grey-text text-darken-1'}>
-        //                     You have no books now. You can add one for sale below.
-        //                 </p>
-        //                 <div className={'col s12'} style={{paddingLeft: '11.250px'}}>
-        //                     <button style={{
-        //                         width: '150px',
-        //                         borderRadius: '3px',
-        //                         letterSpacing: '1.5px',
-        //                         marginTop: '1rem'
-        //                     }}
-        //                             onClick={this.onAddBookClick}
-        //                             className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
-        //                         Add One
-        //                     </button>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     )
-        // } else if (books.length > 0) {
-        //     dashboardContent = <MyBooks user={user} />
-        // }
-
         dashboardContent = (
             <div className={'row'}>
+                <div className={'col s12'}>
+                    <button onClick={this.onLogoutClick}
+                            className={'btn-flat waves-effect'}>
+                        <i className={'material-icons left'}>keyboard_backspace</i> Log Out
+                    </button>
+                </div>
                 <div className={'col s12 center-align'}>
-                    <div className={'col s12'}>
-                        <button onClick={this.onLogoutClick}
-                                className={'btn-flat waves-effect'}>
-                            <i className={'material-icons left'}>keyboard_backspace</i> Log Out
-                        </button>
-                    </div>
                     <h4>
                         <b>Welcome,</b> {user.firstName} {user.lastName}
                     </h4>
@@ -83,6 +56,17 @@ class Dashboard extends Component {
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             Add One
                         </button>
+                    </div>
+                    <br />
+                    <div>
+                        <p className={'grey-text text-darken-1'}>
+                            The books you own are listed below
+                        </p>
+                        {books.map(book => (
+                            <Col key={book._id} sm={12} md={6} lg={4} xl={3}>
+                                <Book book={book} />
+                            </Col>
+                        ))}
                     </div>
                 </div>
             </div>

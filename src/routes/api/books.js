@@ -39,7 +39,7 @@ router.post('/add-for-sale', privateAccess, (req, res) => {
         category: req.body.category,
         condition: req.body.condition,
         price: req.body.price,
-        image: req.body.image,
+        // image: req.body.image,
         forSale: true
     })
 
@@ -197,9 +197,7 @@ router.delete('/:id', privateAccess, (req, res) => {
                     })
             }
         })
-        .catch(err => {
-            res.status(404).json({success: false, msg: 'This book id does not exist, cannot delete'})
-        })
+        .catch(err => console.log(err))
 })
 
 /**

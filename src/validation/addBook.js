@@ -30,7 +30,7 @@ function validateBookInfo(data) {
 
     if (validator.isEmpty(data.price)) {
         errors.price = 'Book price is required.'
-    } else if (!validator.isNumeric(data.price, {no_symbols: true})) {
+    } else if (!validator.isDecimal(data.price, {no_symbols: true})) {
         errors.priceNotValid = 'Book price must be numeric.'
     }
 

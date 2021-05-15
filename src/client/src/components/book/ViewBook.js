@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {Button, Card, Col, Image, ListGroup, Row} from "react-bootstrap";
 import Score from "../layout/Score";
-import {requestBookAction, viewOneBookAction} from "../../actions/bookAction";
+import {deleteBookAction, requestBookAction, viewOneBookAction} from "../../actions/bookAction";
+import Book from "../layout/Book";
 
 const ViewBook = ({match, history}) => {
     const dispatch = useDispatch()
@@ -12,72 +13,65 @@ const ViewBook = ({match, history}) => {
         dispatch(viewOneBookAction(match.params.id))
     }, [dispatch])
 
+    const {user} = useSelector(state => state.auth)
+
     const {book, error} = useSelector(state => state.viewOneBookState)
+
+    const {success} = useSelector(state => state.deleteBookState)
 
     const requestBookClick = () => {
         dispatch(requestBookAction(match.params.id))
         history.push('/')
     }
 
+    const loginBeforeRequestClick = () => {
+        history.push('/login')
+    }
+
+    const onDeleteBookClick = () => {
+        dispatch(deleteBookAction(match.params.id))
+        history.push('/dashboard')
+    }
+
     return (
-        <>
-            <Link to={'/'} className={'btn btn-dark my-3'}>Go Back</Link>
-            <>
-                <Row>
-                    {/*<Col md={4}>*/}
-                    {/*    <Image src={book.image} alt={book.title} fluid />*/}
-                    {/*</Col>*/}
-                    <Col md={4}>
-                        <ListGroup variant={'flush'}>
-                            <ListGroup.Item>
-                                <h3>{book.title}</h3>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                Author: {book.author}
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                Category: {book.category}
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                Condition: {book.condition}
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Score value={book.score} />
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                Price: £{book.price}
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Col>
-                    <Col md={4}>
-                        <Card>
-                            <ListGroup>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col>Price:</Col>
-                                        <Col>${book.price}</Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col>Status:</Col>
-                                        <Col>{book.sold ? 'Unavailable - Sold' : 'Available'}</Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Button className={'btn-block'}
-                                            type={'button'}
-                                            onClick={requestBookClick}
-                                            disabled={book.sold}>
-                                        Request it
-                                    </Button>
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Col>
-                </Row>
-            </>
-        </>
+            <div className={'container'}>
+                <div className={'col s12 center-align'}>
+                    <Book book={book} />
+                </div>
+                <div className={'col s6'}>
+                    {user === null ? (
+                        <Button className={'btn-block'}
+                                type={'button'}
+                                onClick={loginBeforeRequestClick}>
+                            Login in to request
+                        </Button>
+                    ) : (
+                        <Button className={'btn-block'}
+                                type={'button'}
+                                onClick={requestBookClick}
+                                disabled={book.sold}>
+                            Request it
+                        </Button>
+                    )}
+                </div>
+                <div className={'col s6'}>
+                    {user !== null && user._id === book.userId ? (
+                        <button style={{
+                            width: '150px',
+                            borderRadius: '3px',
+                            letterSpacing: '1.5px',
+                            marginTop: '1rem'
+                        }}
+                                type={'submit'}
+                                className={'btn btn-large waves-effect waves-light hoberable red accent-3'}
+                                onClick={onDeleteBookClick}>
+                            Delete
+                        </button>
+                    ) : (
+                        <br />
+                    )}
+                </div>
+            </div>
     )
 }
 
