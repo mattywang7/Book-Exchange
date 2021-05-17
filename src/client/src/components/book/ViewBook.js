@@ -14,7 +14,7 @@ const ViewBook = ({ match, history }) => {
     const { success } = useSelector(state => state.deleteBookState)
 
     const requestBookClick = () => {
-        history.push('/orders/new')
+        history.push(`/orders/new/${match.params.id}`)
     }
 
     const loginBeforeRequestClick = () => {
@@ -41,11 +41,14 @@ const ViewBook = ({ match, history }) => {
                         onClick={loginBeforeRequestClick}>
                         Login in to request
                     </Button>
+                ) : user._id === book.userId ? (
+                    <>
+                    </>
                 ) : (
                     <Button className={'btn-block'}
-                        type={'button'}
-                        onClick={requestBookClick}
-                        disabled={book.sold}>
+                            type={'button'}
+                            onClick={requestBookClick}
+                            disabled={book.sold}>
                         Request it
                     </Button>
                 )}

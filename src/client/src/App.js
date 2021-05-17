@@ -14,7 +14,8 @@ import AddNewBook from "./components/book/AddNewBook";
 import GuestIndex from "./components/book/GuestIndex";
 import SearchedBooks from "./components/book/SearchedBooks";
 import AddNewOrder from "./components/order/AddNewOrder";
-import MyOrders from './components/order/MyOrders'
+import BoughtOrders from './components/order/BoughtOrders'
+import SoldOrders from "./components/order/SoldOrders";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
 // if (localStorage.jwtToken) {
@@ -48,12 +49,16 @@ class App extends Component {
                         <Route exact path={'/home'} component={Landing} />
                         <Route exact path={'/register'} component={Register} />
                         <Route exact path={'/login'} component={Login} />
-                        <Route exact path={'/myorders'} component={MyOrders} />
-                        <Switch>
-                            <PrivateRoute exact path={'/dashboard'} component={Dashboard} />
-                            <PrivateRoute exact path={'/add-for-sale'} component={AddNewBook} />
-                            <PrivateRoute exact path={'/orders/new'} component={AddNewOrder} />
-                        </Switch>
+                        <Route exact path={'/orders/bought'} component={BoughtOrders} />
+                        <Route exact path={'/orders/sold'} component={SoldOrders} />
+                        <Route exact path={'/dashboard'} component={Dashboard} />
+                        <Route exact path={'/add-for-sale'} component={AddNewBook} />
+                        <Route exact path={'/orders/new/:id'} component={AddNewOrder} />
+                        {/*<Switch>*/}
+                        {/*    <PrivateRoute exact path={'/dashboard'} component={Dashboard} />*/}
+                        {/*    <PrivateRoute exact path={'/add-for-sale'} component={AddNewBook} />*/}
+                        {/*    <PrivateRoute exact path={'/orders/new/:id'} component={AddNewOrder} />*/}
+                        {/*</Switch>*/}
                     </div>
                 </Router>
             </Provider>

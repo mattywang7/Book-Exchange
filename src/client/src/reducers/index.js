@@ -8,7 +8,7 @@ import {
     requestBookReducer,
     viewOneBookReducer
 } from "./bookReducer";
-import {addOrderReducer, myOrdersReducer} from "./orderReducers";
+import {addOrderReducer, markExchangedReducer, myOrdersReducer, mySoldOrdersReducer} from "./orderReducers";
 
 export default combineReducers({
     auth: authReducers,
@@ -21,6 +21,8 @@ export default combineReducers({
     addNewBookState: addNewBookReducer,
     deleteBookState: deleteBookReducer,
     addOrderState: addOrderReducer,
-    myOrdersState: myOrdersReducer
+    myOrdersState: myOrdersReducer,
+    mySoldOrdersState: mySoldOrdersReducer,
+    markExchangedState: markExchangedReducer
 })
 

@@ -9,6 +9,33 @@ const OrderSchema = new Schema({
         ref: 'users'
     },
 
+    buyerName: {
+        type: String,
+        required: true
+    },
+
+    sellerId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'users'
+    },
+
+    sellerName: {
+        type: String,
+        required: true
+    },
+
+    bookId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'books'
+    },
+
+    bookTitle: {
+        type: String,
+        required: true
+    },
+
     text: {
         type: String,
         required: true,

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestBookAction } from "../../actions/bookAction";
 import { addOrderAction } from "../../actions/orderActions";
 
-const AddNewOrder = ({ history }) => {
+const AddNewOrder = ({ match }) => {
 
     const dispatch = useDispatch()
 
@@ -11,18 +11,11 @@ const AddNewOrder = ({ history }) => {
 
     const {success, order, error} = useSelector(state => state.addOrderState)
 
-    // useEffect(() => {
-    //     if (success) {
-    //         history.push('/dashboard')
-    //     }
-    // }, [success, order, history])
-
     const submitHandler = (e) => {
-        e.preventDefault()
-        dispatch(addOrderAction({
+        dispatch(addOrderAction(match.params.id, {
             text: text,
             exchanged: false
-        }, history))
+        }))
     }
 
     return (
