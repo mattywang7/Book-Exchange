@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types'
 import {connect} from "react-redux";
 import {guestBookAction} from "../../actions/bookAction";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {Col} from "react-bootstrap";
 import Book from "../layout/Book";
 import OneBook from "../layout/OneBook";
@@ -17,8 +17,24 @@ class SearchedBooks extends Component {
     render() {
         const {books} = this.props.guestBookState
 
-        return (
-            <div className={'container'}>
+        let searchContent
+
+        if (books === null || books.length === 0) {
+            searchContent = (
+                <div className={'col s12 center-align'}>
+                    <div className={'col s8 offset-2'}>
+                        <Link to={'/'} className={'btn-flat waves-effect'}>
+                            <i className={'material-icons left'}>keyboard_backspace</i>
+                            Back to home
+                        </Link>
+                    </div>
+                    <p className={'grey-text text-darken-1'}>
+                        Sorry, no results found :(
+                    </p>
+                </div>
+            )
+        } else {
+            searchContent = (
                 <div className={'col s12 center-align'}>
                     <h2>Here are the books you searched.</h2>
                     {books.map(book => (
@@ -27,6 +43,12 @@ class SearchedBooks extends Component {
                         </Col>
                     ))}
                 </div>
+            )
+        }
+
+        return (
+            <div className={'container'}>
+                {searchContent}
             </div>
         )
     }

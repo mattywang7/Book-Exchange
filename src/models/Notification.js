@@ -12,6 +12,11 @@ const NotificationSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'users'
+    },
+
+    text: {
+        type: String,
+        required: true
     }
 })
 

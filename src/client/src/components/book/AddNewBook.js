@@ -81,7 +81,7 @@ class AddNewBook extends Component {
                                 <b>Add</b> new book below
                             </h4>
                         </div>
-                        <form noValidate onSubmit={this.onSubmit} enctype="multipart/form-data">
+                        <form noValidate onSubmit={this.onSubmit}>
                             <div className={'input-field col s12'}>
                                 <input onChange={this.onChange}
                                        value={this.state.title}

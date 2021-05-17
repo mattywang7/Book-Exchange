@@ -104,7 +104,7 @@ export const addNewBookAction = (newBook, history) => async (dispatch, getState)
     }
 }
 
-export const deleteBookAction = (id) => async (dispatch, getState) => {
+export const deleteBookAction = (id, history) => async (dispatch, getState) => {
     try {
         const {auth: {user}} = getState()
         const config = {
@@ -116,6 +116,7 @@ export const deleteBookAction = (id) => async (dispatch, getState) => {
         dispatch({
             type: BOOK_DELETE_SUCCESS,
         })
+        history.push('/dashboard')
     } catch (error) {
         dispatch({
             type: BOOK_DELETE_FAILURE,

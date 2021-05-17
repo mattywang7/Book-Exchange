@@ -9,15 +9,15 @@ const OrderSchema = new Schema({
         ref: 'users'
     },
 
-    sellerId: {
-        type: Schema.Types.ObjectId,
+    text: {
+        type: String,
         required: true,
-        ref: 'users'
     },
 
-    bookId: {
-        type: String,
-        required: true
+    exchanged: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {
     timestamps: true
