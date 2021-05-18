@@ -16,8 +16,12 @@ const validateBookInfo = require("../../validation/addBook");
  */
 router.get('/books-for-sale', privateAccess, (req, res) => {
     BookModel.find({userId: req.user._id, forSale: true})
-        .then(books => res.json(books))
-        .catch(err => console.log(err))
+        .then(books => {
+            res.json(books)
+        })
+        .catch(err => {
+            console.log(err)
+        })
 })
 
 /**

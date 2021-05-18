@@ -3,7 +3,7 @@ import {
     BOOK_ADD_NEW_SUCCESS, BOOK_DELETE_FAILURE, BOOK_DELETE_SUCCESS,
     BOOK_GUEST_SEARCH_FAILURE,
     BOOK_GUEST_SEARCH_SUCCESS,
-    BOOK_MY_BOOKS_FAILURE,
+    BOOK_MY_BOOKS_FAILURE, BOOK_MY_BOOKS_FOR_SALE_FAILURE, BOOK_MY_BOOKS_FOR_SALE_SUCCESS,
     BOOK_MY_BOOKS_SUCCESS, BOOK_REQUEST_FAILURE, BOOK_REQUEST_SUCCESS, BOOK_VIEW_ONE_FAILURE, BOOK_VIEW_ONE_SUCCESS
 } from "../actions/types";
 
@@ -16,6 +16,21 @@ export const myBookReducer = (state = {books: []}, action) => {
                 books: action.payload
             }
         case BOOK_MY_BOOKS_FAILURE:
+            return {
+                error: action.payload
+            }
+        default:
+            return state
+    }
+}
+
+export const myBooksForSaleReducer = (state = {books: []}, action) => {
+    switch (action.type) {
+        case BOOK_MY_BOOKS_FOR_SALE_SUCCESS:
+            return {
+                books: action.payload
+            }
+        case BOOK_MY_BOOKS_FOR_SALE_FAILURE:
             return {
                 error: action.payload
             }

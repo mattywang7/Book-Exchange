@@ -93,7 +93,7 @@ router.get('/mysold', privateAccess, (req, res) => {
  * @desc mark one order to be exchanged by seller
  * @access private
  */
-router.put('/mark-exchanged/:id', (req, res) => {
+router.put('/mark-exchanged/:id', privateAccess, (req, res) => {
     OrderModel.findById(req.params.id)
         .then(order => {
             if (order) {

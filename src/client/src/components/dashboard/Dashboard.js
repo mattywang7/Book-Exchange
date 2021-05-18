@@ -33,6 +33,10 @@ class Dashboard extends Component {
         this.props.history.push('/orders/sold')
     }
 
+    onViewForSaleBooksClick = () => {
+        this.props.history.push('/books-for-sale')
+    }
+
     render() {
         const {user} = this.props.auth
         const {books} = this.props.myBookState
@@ -51,11 +55,10 @@ class Dashboard extends Component {
                     <h4>
                         <b>Welcome,</b> {user.firstName} {user.lastName}
                     </h4>
-                    <Message variant={'danger'}>{user.firstName}</Message>
                     {books.length === 0 && <p className={'grey-text text-darken-1'}>
                         You have no books now. You can add one for sale below.
                     </p> }
-                    <div className={'col s4'}>
+                    <div className={'col s3'}>
                         <button style={{
                             width: '150px',
                             borderRadius: '3px',
@@ -67,7 +70,7 @@ class Dashboard extends Component {
                             Add One
                         </button>
                     </div>
-                    <div className={'col s4'}>
+                    <div className={'col s3'}>
                         <button style={{
                             width: '150px',
                             borderRadius: '3px',
@@ -79,7 +82,7 @@ class Dashboard extends Component {
                             Bought
                         </button>
                     </div>
-                    <div className={'col s4'}>
+                    <div className={'col s3'}>
                         <button style={{
                             width: '150px',
                             borderRadius: '3px',
@@ -89,6 +92,18 @@ class Dashboard extends Component {
                                 onClick={this.onViewSoldOrdersClick}
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             Sold
+                        </button>
+                    </div>
+                    <div className={'col s3'}>
+                        <button style={{
+                            width: '150px',
+                            borderRadius: '3px',
+                            letterSpacing: '1.5px',
+                            marginTop: '1rem'
+                        }}
+                                onClick={this.onViewForSaleBooksClick}
+                                className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
+                            ForSale
                         </button>
                     </div>
                     <br />

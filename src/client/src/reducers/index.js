@@ -4,7 +4,7 @@ import errorReducers from "./errorReducers";
 import {
     addNewBookReducer, deleteBookReducer,
     guestBookReducer,
-    myBookReducer,
+    myBookReducer, myBooksForSaleReducer,
     requestBookReducer,
     viewOneBookReducer
 } from "./bookReducer";
@@ -23,6 +23,7 @@ export default combineReducers({
     addOrderState: addOrderReducer,
     myOrdersState: myOrdersReducer,
     mySoldOrdersState: mySoldOrdersReducer,
-    markExchangedState: markExchangedReducer
+    markExchangedState: markExchangedReducer,
+    myBooksForSaleState: myBooksForSaleReducer
 })
 

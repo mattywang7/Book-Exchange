@@ -4,7 +4,7 @@ import {
     BOOK_ADD_NEW_SUCCESS, BOOK_DELETE_FAILURE, BOOK_DELETE_SUCCESS,
     BOOK_GUEST_SEARCH_FAILURE,
     BOOK_GUEST_SEARCH_SUCCESS,
-    BOOK_MY_BOOKS_FAILURE,
+    BOOK_MY_BOOKS_FAILURE, BOOK_MY_BOOKS_FOR_SALE_FAILURE, BOOK_MY_BOOKS_FOR_SALE_SUCCESS,
     BOOK_MY_BOOKS_SUCCESS,
     BOOK_REQUEST_FAILURE,
     BOOK_REQUEST_SUCCESS,
@@ -30,6 +30,27 @@ export const myBookAction = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: BOOK_MY_BOOKS_FAILURE,
+            payload: error.response.data
+        })
+    }
+}
+
+export const myBooksForSaleAction = () => async (dispatch, getState) => {
+    try {
+        const {auth: {user}} = getState()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+        const {data} = await axios.get('/api/books/books-for-sale', config)
+        dispatch({
+            type: BOOK_MY_BOOKS_FOR_SALE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: BOOK_MY_BOOKS_FOR_SALE_FAILURE,
             payload: error.response.data
         })
     }

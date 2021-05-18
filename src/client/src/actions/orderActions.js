@@ -79,7 +79,7 @@ export const markExchangedAction = (id) => async (dispatch, getState) => {
                 Authorization: `Bearer ${user.token}`
             }
         }
-        const {data} = await axios.put(`/api/orders//mark-exchanged/${id}`)
+        const {data} = await axios.put(`/api/orders//mark-exchanged/${id}`, config)
         dispatch({
             type: ORDER_MARK_EXCHANGED_SUCCESS,
             payload: data

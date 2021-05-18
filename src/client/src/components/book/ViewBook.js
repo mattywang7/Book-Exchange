@@ -54,7 +54,7 @@ const ViewBook = ({ match, history }) => {
                 )}
             </div>
             <div className={'col s6'}>
-                {user !== null && user._id === book.userId ? (
+                {user !== null && book !== null && user._id === book.userId ? (
                     <button style={{
                         width: '150px',
                         borderRadius: '3px',

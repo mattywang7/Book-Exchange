@@ -23,8 +23,8 @@
 
 const express = require('express')
 const mongoose = require('mongoose')
-// const bodyParser = require('body-parser')
-// const passport = require('passport')
+const bodyParser = require('body-parser')
+const passport = require('passport')
 
 const userRouter = require('./routes/api/users')
 const bookRouter = require('./routes/api/books')
@@ -35,8 +35,8 @@ const app = express()
 app.use(express.json())
 
 // body-parser middlewares
-// app.use(bodyParser.urlencoded({ extended: false }))
-// app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // remote MongoDB config
 const mongodb = require('./config/keys').mongoURI
