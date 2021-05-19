@@ -214,6 +214,10 @@ router.put('/sold/:id', (req, res) => {
             if (book) {
                 book.sold = true
 
+                if (book.forSale) {
+                    book.forSale = false
+                }
+
                 book.save()
                     .then(() => {
                         res.json(book)

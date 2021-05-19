@@ -93,11 +93,25 @@ router.get('/mysold', privateAccess, (req, res) => {
  * @desc mark one order to be exchanged by seller
  * @access private
  */
-router.put('/mark-exchanged/:id', privateAccess, (req, res) => {
+router.put('/mark-exchanged/:id', (req, res) => {
     OrderModel.findById(req.params.id)
         .then(order => {
             if (order) {
                 order.exchanged = true
+
+                const exchangedBookId = order.bookId
+                const thisBuyer = order.buyerId
+                BookModel.findById(exchangedBookId)
+                    .then(boughtBook => {
+                        if (boughtBook) {
+                            boughtBook.userId = thisBuyer
+                            boughtBook.purchased = true
+                            boughtBook.sold = false
+
+                            boughtBook.save()
+                                .catch(err => console.log(err))
+                        }
+                    })
 
                 order.save()
                     .then(updatedOrder => {
