@@ -14,13 +14,13 @@ const privateAccess = asyncHandler(async (req, res, next) => {
             next()
         } catch (error) {
             res.status(401)
-            throw new Error('Not authorized, token failed')
+            throw new Error('Token is not correct, unauthorized')
         }
     }
 
     if (!token) {
         res.status(401)
-        throw new Error('Not authorized, no token')
+        throw new Error('No token, unauthorized')
     }
 })
 

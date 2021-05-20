@@ -36,7 +36,13 @@ const ViewBook = ({ match, history }) => {
             </div>
             <div className={'col s6'}>
                 {user === null ? (
-                    <Button className={'btn-block'}
+                    <Button className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}
+                            style={{
+                                width: '250px',
+                                borderRadius: '3px',
+                                letterSpacing: '1.5px',
+                                marginTop: '1rem'
+                            }}
                         type={'button'}
                         onClick={loginBeforeRequestClick}>
                         Login in to request
@@ -45,12 +51,18 @@ const ViewBook = ({ match, history }) => {
                     <>
                     </>
                 ) : (
-                    <Button className={'btn-block'}
+                    <button className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}
+                            style={{
+                                width: '150px',
+                                borderRadius: '3px',
+                                letterSpacing: '1.5px',
+                                marginTop: '1rem'
+                            }}
                             type={'button'}
                             onClick={requestBookClick}
                             disabled={book.sold}>
                         Request it
-                    </Button>
+                    </button>
                 )}
             </div>
             <div className={'col s6'}>

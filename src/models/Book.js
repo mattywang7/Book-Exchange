@@ -43,11 +43,6 @@ const BookSchema = new Schema({
         required: true
     },
 
-    image: {
-        type: String,
-        default: 'abc'
-    },
-
     sold: {
         type: Boolean,
         required: true,

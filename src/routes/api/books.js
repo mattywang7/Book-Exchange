@@ -43,7 +43,6 @@ router.post('/add-for-sale', privateAccess, (req, res) => {
         category: req.body.category,
         condition: req.body.condition,
         price: req.body.price,
-        // image: req.body.image,
         forSale: true
     })
 
@@ -115,7 +114,6 @@ router.put('/:id', privateAccess, (req, res) => {
         category,
         condition,
         price,
-        image,
         forSale
     } = req.body
 
@@ -127,7 +125,6 @@ router.put('/:id', privateAccess, (req, res) => {
                 book.category = category
                 book.condition = condition
                 book.price = price
-                book.image = image
                 book.forSale = forSale
 
                 book.save()

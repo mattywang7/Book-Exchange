@@ -60,11 +60,18 @@ const SoldOrders = ({history}) => {
                                         <td>{order.text}</td>
                                         <td>{order.exchanged ? 'Completed' : 'Pending'}</td>
                                         <td>
-                                            <button onClick={() => {
+                                            <button className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}
+                                                    style={{
+                                                        width: '150px',
+                                                        borderRadius: '3px',
+                                                        letterSpacing: '1.5px',
+                                                        marginTop: '1rem'
+                                                    }}
+                                                onClick={() => {
                                                 markedExchanged(order)
                                                 notify()
                                             }}>
-                                                mark
+                                                Mark
                                             </button>
                                             <ToastContainer />
                                         </td>
