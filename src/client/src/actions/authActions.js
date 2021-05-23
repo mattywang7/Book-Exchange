@@ -3,7 +3,7 @@ import {
     GET_ERRORS,
     SET_CURRENT_USER,
     USER_LOADING,
-    USER_LOGIN_SUCCESS, USER_REGISTER_SUCCESS,
+    USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_REGISTER_SUCCESS,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 import jwtDecode from "jwt-decode";
@@ -26,14 +26,18 @@ export const setUserLoading = () => {
 }
 
 // log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = (history) => dispatch => {
     // remove token from local storage
     localStorage.removeItem('jwtToken')
     localStorage.removeItem('userInfo')
     // remove auth header for future requests
     setAuthToken(false)
     // set current user to empty object {} which will set isAuthenticated to false
-    dispatch(setCurrentUser({}))
+    dispatch({
+        type: USER_LOGOUT_SUCCESS,
+        payload: {}
+    })
+    history.push('/login')
 }
 
 export const registerAction = (userData, history) => async (dispatch) => {

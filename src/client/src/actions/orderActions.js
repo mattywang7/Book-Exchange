@@ -7,7 +7,7 @@ import {
     ORDER_MY_SOLD_ORDERS_SUCCESS
 } from "./types";
 
-export const addOrderAction = (id, order) => async (dispatch, getState) => {
+export const addOrderAction = (id, order, history) => async (dispatch, getState) => {
     try {
         const {auth: {user}} = getState()
         const config = {
@@ -21,6 +21,7 @@ export const addOrderAction = (id, order) => async (dispatch, getState) => {
             type: ORDER_ADD_NEW_SUCCESS,
             payload: data
         })
+        history.push('/orders/bought')
     } catch (error) {
         dispatch({
             type: ORDER_ADD_NEW_FAILURE,

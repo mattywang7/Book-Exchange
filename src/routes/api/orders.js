@@ -107,6 +107,7 @@ router.put('/mark-exchanged/:id', (req, res) => {
                             boughtBook.userId = thisBuyer
                             boughtBook.purchased = true
                             boughtBook.sold = false
+                            boughtBook.forSale = false
 
                             boughtBook.save()
                                 .catch(err => console.log(err))

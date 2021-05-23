@@ -1,70 +1,75 @@
-import React, {Component} from "react";
-import PropTypes from 'prop-types'
-import {connect} from "react-redux";
-import {logoutUser} from "../../actions/authActions";
-import Spinner from "./Spinner";
-import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect} from "react";
 import {myBookAction} from "../../actions/bookAction";
+import {logoutUser} from "../../actions/authActions";
 import {Col} from "react-bootstrap";
 import Book from "../layout/Book";
-import Message from "../layout/Message";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-class Dashboard extends Component {
+const Dashboard2 = ({history}) => {
+    const dispatch = useDispatch()
 
-    componentDidMount() {
-        if (!this.props.auth) {
-            this.props.history.push('login')
+    const {user} = useSelector(state => state.auth)
+
+    const {books} = useSelector(state => state.myBookState)
+
+    useEffect(() => {
+        if (user === null) {
+            history.push('/login')
+        } else {
+            dispatch(myBookAction())
+            const selectedBook = books.filter(oneBook => {
+                if (oneBook.sold === true) {
+                    notify(selectedBook)
+                    return oneBook
+                }
+            })
         }
-        this.props.myBookAction()
+    }, [dispatch, books, user])
+
+    const notify = (selectedBook) => {
+        toast(`${selectedBook.title} is chosen, please check in your SOLD orders`)
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!this.props.auth) {
-            this.props.history.push('/login')
-        }
-        this.props.myBookAction()
-    }
-
-    // log out
-    onLogoutClick = e => {
+    const onLogoutClick = e => {
         e.preventDefault()
-        this.props.logoutUser(this.props.history)
+        dispatch(logoutUser(history))
     }
 
-    onAddBookClick = () => {
-        this.props.history.push('/add-for-sale')
+    const onAddBookClick = () => {
+        history.push('/add-for-sale')
     }
 
-    onViewBoughtOrdersClick = () => {
-        this.props.history.push('/orders/bought')
+    const onViewBoughtOrdersClick = () => {
+        history.push('/orders/bought')
     }
 
-    onViewSoldOrdersClick = () => {
-        this.props.history.push('/orders/sold')
+    const onViewSoldOrdersClick = () => {
+        history.push('/orders/sold')
     }
 
-    onViewForSaleBooksClick = () => {
-        this.props.history.push('/books-for-sale')
+    const onViewForSaleBooksClick = () => {
+        history.push('/books-for-sale')
     }
 
-    render() {
-        const {user} = this.props.auth
-        const {books} = this.props.myBookState
-
-        let dashboardContent
-
-        dashboardContent = (
+    return (
+        <div className={'container'}>
             <div className={'row'}>
                 <div className={'col s12'}>
-                    <button onClick={this.onLogoutClick}
+                    <button onClick={onLogoutClick}
                             className={'btn-flat waves-effect'}>
                         <i className={'material-icons left'}>keyboard_backspace</i> Log Out
                     </button>
                 </div>
                 <div className={'col s12 center-align'}>
-                    <h4>
-                        <b>Welcome,</b> {user.firstName} {user.lastName}
-                    </h4>
+                    {user === null ? (
+                        <></>
+                    ) : (
+                        <h4>
+                            <b>Welcome,</b> {user.firstName} {user.lastName}
+                        </h4>
+                    )}
                     {books.length === 0 && <p className={'grey-text text-darken-1'}>
                         You have no books now. You can add one for sale below.
                     </p> }
@@ -75,7 +80,7 @@ class Dashboard extends Component {
                             letterSpacing: '1.5px',
                             marginTop: '1rem'
                         }}
-                                onClick={this.onAddBookClick}
+                                onClick={onAddBookClick}
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             Add One
                         </button>
@@ -87,7 +92,7 @@ class Dashboard extends Component {
                             letterSpacing: '1.5px',
                             marginTop: '1rem'
                         }}
-                                onClick={this.onViewBoughtOrdersClick}
+                                onClick={onViewBoughtOrdersClick}
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             Bought
                         </button>
@@ -99,7 +104,7 @@ class Dashboard extends Component {
                             letterSpacing: '1.5px',
                             marginTop: '1rem'
                         }}
-                                onClick={this.onViewSoldOrdersClick}
+                                onClick={onViewSoldOrdersClick}
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             Sold
                         </button>
@@ -111,7 +116,7 @@ class Dashboard extends Component {
                             letterSpacing: '1.5px',
                             marginTop: '1rem'
                         }}
-                                onClick={this.onViewForSaleBooksClick}
+                                onClick={onViewForSaleBooksClick}
                                 className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}>
                             ForSale
                         </button>
@@ -126,31 +131,12 @@ class Dashboard extends Component {
                                 <Book book={book} />
                             </Col>
                         ))}
+                        <ToastContainer />
                     </div>
                 </div>
             </div>
-        )
-
-        return <div className={'container'}>{dashboardContent}</div>
-    }
-
+        </div>
+    )
 }
 
-Dashboard.propTypes = {
-    // actions
-    logoutUser: PropTypes.func.isRequired,
-    myBookAction: PropTypes.func.isRequired,
-
-    auth: PropTypes.object.isRequired,
-    myBookState: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => ({
-    auth: state.auth,
-    myBookState: state.myBookState
-})
-
-export default connect(
-    mapStateToProps,
-    {logoutUser, myBookAction}
-)(Dashboard)
+export default Dashboard2

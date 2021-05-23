@@ -29,6 +29,9 @@ const Book = ({ book, history }) => {
                 <Card.Text>
                     <b>Price</b>: £{book.price}
                 </Card.Text>
+                <Card.Text>
+                    <b>Status</b>: {book.forSale ? ('For Sale') : ('Purchased')}
+                </Card.Text>
             </Card.Body>
         </Card>
     )

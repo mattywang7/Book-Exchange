@@ -61,16 +61,6 @@ const BookSchema = new Schema({
         default: false
     }
 
-    // reviews: [
-    //     ReviewSchema
-    // ],
-
-    // reviewNumber: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0
-    // }
-
 }, {
     // automatically manage createdAt and updatedAt
     timestamps: true

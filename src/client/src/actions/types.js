@@ -6,6 +6,8 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS'
+
 
 /**************** Book Types **********************/
 export const BOOK_MY_BOOKS_SUCCESS = 'BOOK_MY_BOOKS_SUCCESS'
