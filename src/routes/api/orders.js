@@ -4,6 +4,10 @@ const OrderModel = require("../../models/Order");
 const BookModel = require("../../models/Book");
 const User = require('../../models/User')
 const router = express.Router()
+const asyncHandler = require('express-async-handler')
+
+const validateReviewInfo = require('../../validation/addReview')
+const {ReviewModel} = require("../../models/Review");
 
 /**
  * @route /api/orders/new/{bookId}
@@ -124,6 +128,69 @@ router.put('/mark-exchanged/:id', (req, res) => {
         .catch(err => {
             console.log(err)
         })
+})
+
+/**
+ * @route /api/orders/add-review/{id}
+ * @desc add a review for this order after the order is completed
+ * @access private
+ */
+// router.post('/add-review/:id', privateAccess, (req, res) => {
+//     const {errors, isValid} = validateReviewInfo(req.body)
+//     if (!isValid) {
+//         return res.status(400).json(errors)
+//     }
+//
+//     const newReview = new ReviewModel({
+//         userId: req.user._id,
+//         orderId: req.params.id,
+//         title: req.body.title,
+//         text: req.body.text,
+//         score: req.body.score
+//     })
+//
+//     newReview.save()
+//         .then(savedReview => {
+//             OrderModel.findById(req.params.id)
+//                 .then(foundOrder => {
+//                     if (foundOrder) {
+//                         foundOrder.reviewScore = req.body.score
+//                     }
+//                     res.json(savedReview)
+//                 })
+//                 .catch(err => console.log(err))
+//         })
+//         .catch(err => console.log(err))
+// })
+
+router.post('/add-review/:id', privateAccess, asyncHandler(async (req, res) => {
+    const thisOrderId = req.params.id
+    const reviewAdder = req.user._id
+    const {errors, isValid} = validateReviewInfo(req.body)
+    if (!isValid) {
+        return res.status(400).json(errors)
+    }
+
+    const newReview = new ReviewModel({
+        userId: reviewAdder,
+        orderId: thisOrderId,
+        title: req.body.title,
+        text: req.body.text,
+        score: req.body.score
+    })
+
+    const addedReview = await newReview.save()
+    res.json(addedReview)
+}))
+
+router.get('/get-review/:id', (req, res) => {
+    ReviewModel.find({orderId: req.params.id})
+        .then(foundReview => {
+            if (foundReview) {
+                res.json(foundReview)
+            }
+        })
+        .catch(err => console.log(err))
 })
 
 module.exports = router

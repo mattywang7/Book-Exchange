@@ -19,6 +19,10 @@ const BoughtOrders = ({history}) => {
         }
     }, [dispatch, user, history])
 
+    const addReview = (orderId) => {
+        history.push(`/add-review/${orderId}`)
+    }
+
     return (
         <div className={'container'}>
             <div className={'col s12 center-align'}>
@@ -49,6 +53,21 @@ const BoughtOrders = ({history}) => {
                                         <td>{order.bookTitle}</td>
                                         <td>{order.text}</td>
                                         <td>{order.exchanged ? 'Completed' : 'Pending'}</td>
+                                        <td>
+                                            <button className={'btn btn-large waves-effect waves-light hoverable blue accent-3'}
+                                                    style={{
+                                                        width: '150px',
+                                                        borderRadius: '3px',
+                                                        letterSpacing: '1.5px',
+                                                        marginTop: '1rem'
+                                                    }}
+                                                    disabled={order.reviewScore !== 0}
+                                                    onClick={() => {
+                                                        addReview(order._id)
+                                                    }}>
+                                                Review
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>

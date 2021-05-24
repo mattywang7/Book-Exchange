@@ -20,6 +20,7 @@ import BoughtOrders from './components/order/BoughtOrders'
 import SoldOrders from "./components/order/SoldOrders";
 import MyForSaleBooks from "./components/book/MyForSaleBooks";
 import Dashboard2 from "./components/dashboard/Dashboard2";
+import AddNewReview from "./components/order/AddNewReview";
 
 // check localStorage for token to keep user logged in until they log out or the token expires
 // if (localStorage.jwtToken) {
@@ -54,6 +55,7 @@ class App extends Component {
                         <Route exact path={'/register'} component={Register} />
                         <Route exact path={'/login'} component={Login} />
                         <Route exact path={'/orders/bought'} component={BoughtOrders} />
+                        <Route exact path={'/add-review/:id'} component={AddNewReview} />
                         <Route exact path={'/orders/sold'} component={SoldOrders} />
                         <Route exact path={'/dashboard'} component={Dashboard2} />
                         <Route exact path={'/books-for-sale'} component={MyForSaleBooks} />

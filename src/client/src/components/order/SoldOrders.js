@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {markExchangedAction, mySoldOrdersAction} from "../../actions/orderActions";
+import {getReviewAction, markExchangedAction, mySoldOrdersAction} from "../../actions/orderActions";
 import {Col, Row, Table} from "react-bootstrap";
 import Message from "../layout/Message";
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,13 +13,15 @@ const SoldOrders = ({history}) => {
 
     const {orders, error} = useSelector(state => state.mySoldOrdersState)
 
+    const {review} = useSelector(state => state.getReviewState)
+
     useEffect(() => {
         if (!user) {
             history.push('/login')
         } else {
             dispatch(mySoldOrdersAction())
         }
-    }, [dispatch, orders, user, history])
+    }, [dispatch, orders, user, review, history])
 
     const markedExchanged = (openOrder) => {
         dispatch(markExchangedAction(openOrder._id))
@@ -27,6 +29,10 @@ const SoldOrders = ({history}) => {
 
     const notify = () => {
         toast('The exchange is complete👏!')
+    }
+
+    const onGetReview = (id) => {
+        dispatch(getReviewAction(id))
     }
 
     return (
@@ -74,6 +80,13 @@ const SoldOrders = ({history}) => {
                                                 Mark
                                             </button>
                                             <ToastContainer />
+                                        </td>
+                                        <td>
+                                            {order.reviewScore === 0 ? (
+                                                'No reviews'
+                                            ) : (
+                                                order.reviewScore
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

@@ -8,13 +8,20 @@ const ReviewSchema = new Schema({
         required: true
     },
 
+    orderId: {
+        type: Schema.Types.ObjectId,
+        ref: 'orders',
+        required: true
+    },
+
     title: {
         type: String,
         required: true
     },
 
     text: {
-        type: String
+        type: String,
+        required: true
     },
 
     score: {
@@ -25,5 +32,5 @@ const ReviewSchema = new Schema({
     timestamps: true
 })
 
-const Review = mongoose.model('reviews', ReviewSchema)
-module.exports = {Review, ReviewSchema}
+const ReviewModel = mongoose.model('reviews', ReviewSchema)
+module.exports = {ReviewModel, ReviewSchema}

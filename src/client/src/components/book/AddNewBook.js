@@ -20,11 +20,11 @@ class AddNewBook extends Component {
         }
     }
 
-    componentDidMount() {
-        if (!this.props.auth.isAuthenticated) {
-            this.props.history.push('/login')
-        }
-    }
+    // componentDidMount() {
+    //     if (!this.props.auth.isAuthenticated) {
+    //         this.props.history.push('/login')
+    //     }
+    // }
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.errors) {
